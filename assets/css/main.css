@@ -1,0 +1,33 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+@import "./animations.css";
+
+@theme static {
+  --font-sans: 'Prompt', sans-serif;
+}
+
+
+
+:root {
+  --ui-primary: var(--ui-color-primary-500);
+  --ui-info: var(--ui-color-info-500);
+  --ui-neutral: var(--ui-color-neutral-500);
+  --ui-warning: var(--ui-color-warning-400);
+  --ui-error: var(--ui-color-error-500);
+  --ui-secondary: var(--ui-color-secondary-500);
+  --ui-text: var(--ui-color-zinc-950)
+}
+
+.dark {
+  --ui-primary: var(--ui-color-primary-600);
+  --ui-info: var(--ui-color-info-500);
+  --ui-neutral: var(--ui-color-neutral-500);
+  --ui-warning: var(--ui-color-warning-600);
+  --ui-error: var(--ui-color-error-700);
+  --ui-secondary: var(--ui-color-secondary-700);
+  --ui-text: #fff
+}
+
+.bg-background {
+  background-color: var(--ui-bg);
+}
