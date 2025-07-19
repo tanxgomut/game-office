@@ -26,7 +26,6 @@ const handleLogout = async () => {
 }
 </script>
 <template>
-
     <div class="flex items-center">
         <UAvatar src="https://github.com/benjamincanac.png" size="3xl" />
         <div v-if="isLogin" class="flex-1 px-3">
@@ -49,6 +48,4 @@ const handleLogout = async () => {
         <UButton @click="handleLogout()" label="ออกจากระบบ" size="lg" color="neutral" variant="soft"
             class="w-full flex justify-center items-center" />
     </div>
-
-
 </template>
