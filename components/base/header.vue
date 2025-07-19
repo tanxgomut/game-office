@@ -50,11 +50,10 @@ const toProfile = () => {
                     class="text-sm font-medium transition-colors hover:text-primary text-foreground">
                     {{ item.name }}
                 </NuxtLink> -->
-                <a href="https://line.me/R/ti/p/~your_line_id" target="_blank" rel="noopener">
-                    <UButton icon="i-lucide-message-circle-heart" size="md" color="primary" variant="soft">
-                        ติดต่อแอดมิน
-                    </UButton>
-                </a>
+                <UButton to="https://line.me/ti/p/yourlineid" icon="i-lucide-message-circle-heart" size="md"
+                    color="primary" variant="soft">
+                    ติดต่อแอดมิน
+                </UButton>
                 <ColorModeButton />
                 <UAvatar v-if="isLogin" @click="toProfile" src="https://github.com/benjamincanac.png" size="xl" />
                 <AuthLogin v-else />
@@ -62,11 +61,10 @@ const toProfile = () => {
             </nav>
 
             <nav class="md:hidden flex items-center space-x-4">
-                <a href="https://line.me/R/ti/p/~your_line_id" target="_blank" rel="noopener">
-                    <UButton icon="i-lucide-message-circle-heart" size="md" color="primary" variant="soft">
-                        ติดต่อแอดมิน
-                    </UButton>
-                </a>
+                <UButton to="https://line.me/ti/p/yourlineid" icon="i-lucide-message-circle-heart" size="md"
+                    color="primary" variant="soft">
+                    ติดต่อแอดมิน
+                </UButton>
                 <ColorModeButton />
                 <!-- <UDropdownMenu :items="items" :ui="{
                     content: 'w-48'
