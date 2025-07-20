@@ -37,41 +37,39 @@ const toProfile = () => {
 
 <template>
 
-    <header class="sticky top-0 z-50 w-full bg-background backdrop-blur supports-[backdrop-filter]:bg-background/60 ">
+    <header class="sticky top-0 z-50 w-full bg-background backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-gray-200">
         <div class="flex h-16 items-center justify-between">
             <div class="flex items-center gap-2">
-                <NuxtLink to="/" class="flex items-center space-x-2">
-                    <span class="font-bold text-xl text-foreground">BRAND</span>
-                </NuxtLink>
+                
             </div>
 
-            <nav class="hidden md:flex items-center space-x-4">
+            <nav class="flex items-center space-x-4">
                 <!-- <NuxtLink v-for="item in navItems" :key="item.href" :to="item.href"
                     class="text-sm font-medium transition-colors hover:text-primary text-foreground">
                     {{ item.name }}
                 </NuxtLink> -->
-                <UButton to="https://line.me/ti/p/yourlineid" icon="i-lucide-message-circle-heart" size="md"
+                <!-- <UButton to="https://line.me/ti/p/yourlineid" icon="i-lucide-message-circle-heart" size="md"
                     color="primary" variant="soft">
                     ติดต่อแอดมิน
-                </UButton>
+                </UButton> -->
                 <ColorModeButton />
                 <UAvatar v-if="isLogin" @click="toProfile" src="https://github.com/benjamincanac.png" size="xl" />
                 <AuthLogin v-else />
 
             </nav>
 
-            <nav class="md:hidden flex items-center space-x-4">
+            <!-- <nav class="md:hidden flex items-center space-x-4">
                 <UButton to="https://line.me/ti/p/yourlineid" icon="i-lucide-message-circle-heart" size="md"
                     color="primary" variant="soft">
                     ติดต่อแอดมิน
                 </UButton>
                 <ColorModeButton />
-                <!-- <UDropdownMenu :items="items" :ui="{
+                <UDropdownMenu :items="items" :ui="{
                     content: 'w-48'
                 }">
                     <UButton icon="i-lucide-menu" color="neutral" variant="outline" />
-                </UDropdownMenu> -->
-            </nav>
+                </UDropdownMenu>
+            </nav> -->
 
             <!-- <div class="flex md:hidden">
                 <UButton variant="ghost" icon="i-lucide-rocket" class="ml-2" @click="toggleMobileMenu">

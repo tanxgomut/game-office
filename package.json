@@ -12,6 +12,9 @@
   "dependencies": {
     "@nuxt/ui": "^3.2.0",
     "@nuxtjs/color-mode": "^3.5.2",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
     "nuxt": "^3.17.7",
     "vee-validate": "^4.15.1",
     "vue": "^3.5.17",

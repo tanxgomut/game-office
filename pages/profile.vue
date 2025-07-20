@@ -28,24 +28,24 @@ const handleLogout = async () => {
 <template>
     <div class="flex items-center">
         <UAvatar src="https://github.com/benjamincanac.png" size="3xl" />
-        <div v-if="isLogin" class="flex-1 px-3">
+        <div  class="flex-1 px-3">
             <div class="text-xl">คุณ jack</div>
             <p class="text-sm">064-789-5632</p>
         </div>
-        <UButton v-if="isLogin" icon="i-lucide-settings" size="md" color="primary" variant="soft" />
+        <!-- <UButton v-if="isLogin" icon="i-lucide-settings" size="md" color="primary" variant="soft" />
         <div v-if="!isLogin" class="flex-1 px-3">
             <div class="flex justify-between items-center">
                 <div class="text-md font-medium">คุณยังไม่ได้เข้าสู่ระบบ</div>
                 <AuthLogin class="md:hidden" />
             </div>
-        </div>
+        </div> -->
     </div>
-    <div v-if="isLogin" class="w-full shadow-sm px-4 py-6 rounded-md mt-2">
+    <div  class="w-full  px-4 py-6 rounded-md mt-2 h-[2000px] ">
         <div class="text-xl">ยอดเงินคงเหลือ</div>
         <div class="text-lg font-bold">฿ : 200</div>
     </div>
-    <div v-if="isLogin" class="mt-6">
+    <!-- <div v-if="isLogin" class="mt-6">
         <UButton @click="handleLogout()" label="ออกจากระบบ" size="lg" color="neutral" variant="soft"
             class="w-full flex justify-center items-center" />
-    </div>
+    </div> -->
 </template>
