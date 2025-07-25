@@ -12,34 +12,26 @@ const router = useRouter()
 
 const schemaLogin = object({
   phone: string()
-    .required('กรุณากรอกเบอร์โทร')
-    .matches(/^0[689]\d{8}$/, 'เบอร์โทรไม่ถูกต้อง'),
+    .required('กรอก username'),
   pin: string()
-    .required('กรุณากรอก PIN')
-    .matches(/^\d{6}$/, 'PIN ต้องเป็นตัวเลข 6 หลัก')
+    .required('กรอก password')
 })
 
 
 type SchemaLogin = InferType<typeof schemaLogin>
 
 
-const pinLogin = ref<string[]>(Array(6).fill(''))
+// const pinLogin = ref<string[]>(Array(6).fill(''))
 
 
 const stateLogin = reactive({
   phone: '',
-  get pin() {
-    return pinLogin.value.join('')
-  },
-  set pin(val: string) {
-    pinLogin.value = val.split('')
-  }
+  pin: ''
 })
 
 const resetFrom = () => {
   stateLogin.phone = ''
   stateLogin.pin = ''
-  pinLogin.value = Array(6).fill('')
 }
 
 
@@ -61,11 +53,11 @@ async function onSubmitLogin(event: FormSubmitEvent<SchemaLogin>) {
     <UIcon name="i-lucide-shield-user" class="size-40" />
   </div>
   <UForm :schema="schemaLogin" :state="stateLogin" class="space-y-6" @submit="onSubmitLogin">
-    <UFormField label="เบอร์โทรศัพท์" name="phone">
-      <UInput v-model="stateLogin.phone" placeholder="089xxxxxxx" size="lg" class="w-full" />
+    <UFormField label="username" name="phone">
+      <UInput v-model="stateLogin.phone" placeholder="username" size="lg" class="w-full" />
     </UFormField>
-    <UFormField label="PIN (6 หลัก)" name="pin">
-      <UPinInput v-model="pinLogin" length="6" :disabled="false" :mask="false" size="lg" />
+    <UFormField label="password" name="pin">
+      <UInput v-model="stateLogin.pin" placeholder="password" type="password" size="lg" class="w-full" />
     </UFormField>
     <USeparator label="ล็อกอิน" class="mb-4" />
     <div class="pt-4">

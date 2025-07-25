@@ -2,6 +2,7 @@
 import BaseHeader from '~/components/base/header.vue';
 
 const route = useRoute()
+const router = useRouter()
 const isLogin = useCookie('isLogin')
 
 const item = ref([
@@ -14,7 +15,7 @@ const item = ref([
     {
         page: 'withdrawal',
         label: 'รายการถอน',
-        icon: 'i-lucide-users-round',
+        icon: 'i-lucide-banknote-arrow-down',
         to: '/withdrawal',
     },
     {
@@ -29,6 +30,7 @@ const item = ref([
 
 const logOut = () => {
     isLogin.value = null
+    router.push('/')
 }
 
 const handleLogout = async () => {
@@ -48,7 +50,7 @@ const handleLogout = async () => {
 </script>
 <template>
     <div class="h-screen flex max-w-full min-w-md  mx-auto ">
-        <div class="w-[240px] flex flex-col p-4 shadow-lg dark:shadow-xl ">
+        <div class="w-[200px] flex flex-col p-4 shadow-lg dark:shadow-xl ">
             <NuxtLink class="flex items-center  py-4">
                 <span class="font-bold text-xl text-foreground">BRAND</span>
             </NuxtLink>

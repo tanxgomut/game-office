@@ -5,9 +5,7 @@ import { h, ref, computed, resolveComponent } from 'vue'
 import type { TableColumn } from '@nuxt/ui'
 const table = useTemplateRef('table')
 const UBadge = resolveComponent('UBadge')
-import jsPDF from 'jspdf'
-import autoTable from 'jspdf-autotable'
-import { THSarabunNew_normal } from '~/fonts/THSarabunNew-normal';
+import { THSarabunNew_normal } from '~/fonts/THSarabunNew-normal'
 
 declare module 'jspdf' {
     interface jsPDF {
@@ -53,18 +51,6 @@ function calendarDateToJS(d: CalendarDate | null): Date | null {
 const search = ref('')
 const selectedType = ref<'all' | 'deposit' | 'withdrawal'>('all')
 
-// ✅ ตัวกรองข้อมูลทั้งหมด
-// const filteredData = computed(() => {
-//     return allData.value.filter((t) => {
-//         const matchSearch = t.name.includes(search.value) || t.phone.includes(search.value)
-//         const matchType = selectedType.value === 'all' || t.type === selectedType.value
-//         const dateObj = new Date(t.date)
-//         const matchStart = startDate.value ? dateObj >= new Date(startDate.value) : true
-//         const matchEnd = endDate.value ? dateObj <= new Date(endDate.value) : true
-//         return matchSearch && matchType && matchStart && matchEnd
-//     })
-// })
-
 const filteredData = computed(() => {
     return allData.value.filter(item => {
         const s = search.value.toLowerCase()
@@ -78,6 +64,13 @@ const filteredData = computed(() => {
         return matchSearch && matchType && matchStart && matchEnd
     })
 })
+
+const resetFilter = () => {
+    search.value = ''
+    selectedType.value = 'all'
+    startDate.value = null
+    endDate.value = null
+}
 
 const columns: TableColumn<Transaction>[] = [
     {
@@ -184,7 +177,11 @@ const exportCSV = () => {
     document.body.removeChild(link)
 }
 
-const exportPDF = () => {
+const exportPDF = async () => {
+    const jsPDFModule = await import('jspdf')
+    const autoTableModule = await import('jspdf-autotable')
+    const jsPDF = jsPDFModule.default
+    const autoTable = autoTableModule.default
     const doc = new jsPDF()
     doc.addFileToVFS('THSarabunNew-normal.ttf', THSarabunNew_normal);
     doc.addFont('THSarabunNew-normal.ttf', 'THSarabunNew', 'normal');
@@ -225,9 +222,9 @@ const exportPDF = () => {
 </script>
 
 <template>
-    <div class="sticky top-[64px] z-10  py-4">
+    <div class="sticky top-[64px] z-10  py-4 bg-background">
         <div class="flex justify-between items-center">
-            <div class="text-4xl sticky top-0 font-medium py-4">รายงานการฝาก-ถอน</div>
+            <div class="text-4xl sticky top-0 font-medium py-4">รายงาน</div>
             <div>
                 <UButton @click="exportCSV" variant="soft" icon="i-lucide-calendar" color="success" class="mr-4">
                     export csv
@@ -265,6 +262,9 @@ const exportPDF = () => {
                     <UCalendar v-model="endDate" class="p-2" :fixed-weeks="false" />
                 </template>
             </UPopover>
+            <UButton color="primary" variant="outline" icon="i-lucide-rotate-ccw" @click="resetFilter">
+                ล้างตัวกรอง
+            </UButton>
         </div>
     </div>
     <div class="space-y-4">
