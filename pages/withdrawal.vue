@@ -247,13 +247,6 @@ const pagination = ref({
         <div id="pdf-content" class="w-full space-y-4 pb-4 ">
             <UTable ref="table" sticky v-model:pagination="pagination" :data="filteredData" :columns="columns"
                 :pagination-options="{ getPaginationRowModel: getPaginationRowModel() }" class="flex-1 max-h-[550]">
-                <template #actions-data="{ row }">
-                    <div v-if="row.status === 'pending'" class="flex gap-2">
-                        <UButton size="xs">ยืนยัน</UButton>
-                        <UButton size="xs">ยกเลิก</UButton>
-                    </div>
-                    <div v-else class="text-gray-500 text-sm">-</div>
-                </template>
             </UTable>
 
             <div class="flex justify-center border-t border-default pt-4">
