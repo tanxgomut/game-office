@@ -9,21 +9,7 @@ const emit = defineEmits(['submit', 'close'])
 
 const isOpen = defineModel<boolean>()
 const isLogin = useCookie('isLogin')
-
-onMounted(() => {
-
-})
-
-watch(isOpen, (val) => {
-  if (val && props.userData) {
-    state.phone = props.userData.phone
-    state.bank = props.userData.bankType
-    state.accountNumber = props.userData.bankAccount
-    state.pin = '123456'
-  } else {
-    resetFrom()
-  }
-})
+const isValidForm = ref(false)
 
 const schema = object({
   phone: string()
@@ -59,6 +45,25 @@ const bankOptions = [
   { label: 'กรุงเทพ', value: 'bbl' }
 ]
 
+onMounted(() => {
+
+})
+
+watch(isOpen, (val) => {
+  if (val && props.userData) {
+    state.phone = props.userData.phone
+    state.bank = props.userData.bankType
+    state.accountNumber = props.userData.bankAccount
+    state.pin = '123456'
+  } else {
+    resetFrom()
+  }
+})
+
+watchEffect(async () => {
+  isValidForm.value = await schema.isValid(state)
+})
+
 const resetFrom = () => {
   state.phone = ''
   state.bank = ''
@@ -73,8 +78,12 @@ async function onSubmit() {
     emit('submit', state)
     isOpen.value = false
   } catch (error) {
-    toast.add({ title: 'กรอกข้อมูลไม่ครบหรือไม่ถูกต้อง', color: 'error' })
+    // toast.add({ title: 'กรอกข้อมูลไม่ครบหรือไม่ถูกต้อง', color: 'error' })
   }
+}
+
+const onClose = () => {
+  isOpen.value = false
 }
 
 </script>
@@ -84,7 +93,7 @@ async function onSubmit() {
     :ui="{ body: 'h-full overflow-auto min-w-[500px]', header: 'flex items-center justify-between' }">
     <template #header>
       <h2 class="text-highlighted font-semibold">{{ text }}</h2>
-      <UButton color="neutral" variant="ghost" icon="i-lucide-x" @click="isOpen = false" />
+      <UButton color="neutral" variant="ghost" icon="i-lucide-x" @click="onClose" />
     </template>
     <template #body>
       <UForm :schema="schema" :state="state" class="space-y-3">
@@ -104,8 +113,8 @@ async function onSubmit() {
     </template>
     <template #footer>
       <div class="flex justify-end gap-x-2 ">
-        <UButton label="ยกเลิก" color="error" variant="soft" />
-        <UButton @click="onSubmit()" label="บันทึก" color="primary" variant="soft" />
+        <UButton @click="onClose" label="ยกเลิก" color="error" variant="soft" />
+        <UButton @click="onSubmit()" label="บันทึก" color="primary" variant="soft" :disabled="!isValidForm" />
       </div>
     </template>
   </UDrawer>

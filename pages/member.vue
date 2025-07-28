@@ -3,6 +3,7 @@ import { useConfirmDialog } from '@/composables/useConfirmDialog'
 import { getPaginationRowModel } from '@tanstack/vue-table'
 import { h, ref, computed, resolveComponent } from 'vue'
 import type { TableColumn } from '@nuxt/ui'
+import axios from 'axios'
 const table = useTemplateRef('table')
 const UBadge = resolveComponent('UBadge')
 const UButton = resolveComponent('UButton')
@@ -113,6 +114,22 @@ const columns: TableColumn<User>[] = [
     }
 ]
 
+import { useApi } from '@/composables/useApi'
+
+const { get } = useApi()
+const users = ref()
+// const { data: users, pending, error } = await useAsyncData('users', get)
+
+onMounted(async () => {
+   // const res = await axios.get('https://api.example.com/users')
+    users.value = await get()
+    console.log(users.value, 852);
+    //const res = await axios.get('https://api.example.com/users')
+    //console.log(res);
+
+})
+
+
 const addMember = () => {
     textHeader.value = 'เพิ่มสมาชิก'
     itemUser.value = null
@@ -132,7 +149,7 @@ const deleteCredit = (item: User) => {
 }
 
 const mangeMember = (e: any) => {
-    console.log('📦 :', e);
+
 }
 
 const pagination = ref({
