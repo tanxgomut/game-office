@@ -9,7 +9,7 @@ const UButton = resolveComponent('UButton')
 
 const open = ref(false)
 const textHeader = ref('เพิ่มสมาชิก')
-
+const itemUser = ref<User | null>(null)
 
 
 interface User {
@@ -21,14 +21,18 @@ interface User {
     credit: number
 }
 
-const bankTypes = ['SCB', 'KBank', 'BBL', 'Krungsri', 'TMB', 'UOB', 'Kiatnakin', 'GSB']
+const bankTypes = [
+    { label: 'กสิกรไทย', value: 'kbank' },
+    { label: 'ไทยพาณิชย์', value: 'scb' },
+    { label: 'กรุงไทย', value: 'ktb' },
+    { label: 'กรุงเทพ', value: 'bbl' }]
 
 const allUsers = ref<User[]>(Array.from({ length: 20 }, (_, i) => ({
     id: `U${(i + 1).toString().padStart(3, '0')}`,
     name: ['James', 'Mia', 'William', 'Emma', 'Noah', 'Olivia', 'Ethan', 'Sophia', 'Lucas', 'Ava'][i % 10] + ` ${i}`,
     phone: `08${Math.floor(10000000 + Math.random() * 89999999)}`,
     bankAccount: `${Math.floor(1000000000 + Math.random() * 8999999999)}`,
-    bankType: bankTypes[i % bankTypes.length],
+    bankType: bankTypes[i % bankTypes.length].value,
     credit: 0
 })))
 
@@ -56,7 +60,12 @@ const columns: TableColumn<User>[] = [
     },
     {
         accessorKey: 'bankType',
-        header: 'ธนาคาร'
+        header: 'ธนาคาร',
+        cell: ({ row }) => {
+            const value = row.getValue('bankType')
+            const label = bankTypes.find(b => b.value === value)?.label || '-'
+            return label
+        }
     },
     {
         id: 'actions',
@@ -96,6 +105,7 @@ const columns: TableColumn<User>[] = [
                 variant: 'solid',
                 onClick: () => {
                     textHeader.value = 'แก้ไขข้อมูลสมาชิก'
+                    itemUser.value = row.original
                     open.value = true
                 }
             })
@@ -105,6 +115,7 @@ const columns: TableColumn<User>[] = [
 
 const addMember = () => {
     textHeader.value = 'เพิ่มสมาชิก'
+    itemUser.value = null
     open.value = true
 }
 
@@ -118,6 +129,10 @@ const deleteCredit = (item: User) => {
     if (item.credit > 0) {
         item.credit--
     }
+}
+
+const mangeMember = (e: any) => {
+    console.log('📦 :', e);
 }
 
 const pagination = ref({
@@ -146,6 +161,7 @@ async function handleDelete() {
 </script>
 
 <template>
+    <Member v-model="open" :text="textHeader" :userData="itemUser" @submit="mangeMember" />
     <div class="sticky top-[64px] z-10  py-4 bg-background">
         <div class="flex justify-between items-center">
             <div class="text-4xl sticky top-0 font-medium py-4">สมาชิก</div>
@@ -171,47 +187,5 @@ async function handleDelete() {
             </div>
         </div>
     </div>
-    <!-- <UDrawer v-model:open="open" direction="right" :dismissible="false" :handle="false"
-        :ui="{ header: 'flex items-center justify-between' }">
-        <template #header>
-            <h2 class="text-highlighted font-semibold">{{ textHeader }}</h2>
-
-            <UButton color="neutral" variant="ghost" icon="i-lucide-x" @click="open = false" />
-        </template>
-
-<template #body>
-            <div class="min-w-[500px] ">
-                <div class="flex flex-col h-full">
-                    <div class="flex-1 overflow-y-auto">
-                        <div class="h-[2000px] p-4">
-                            
-                        </div>
-                    </div>
-                    <div class="flex justify-end gap-x-2 py-4">
-                        <UButton label="ยกเลิก" color="error" variant="soft" />
-                        <UButton label="บันทึก" color="primary" variant="soft" />
-                    </div>
-                </div>
-            </div>
-        </template>
-</UDrawer> -->
-    <UDrawer v-model:open="open" direction="right" :dismissible="false" :handle="false"
-        :ui="{ body: 'h-full overflow-auto min-w-[500px]', header: 'flex items-center justify-between' }">
-        <template #header>
-            <h2 class="text-highlighted font-semibold">{{ textHeader }}</h2>
-            <UButton color="neutral" variant="ghost" icon="i-lucide-x" @click="open = false" />
-        </template>
-        <template #body>
-            <div class="h-[2000px]"></div>
-        </template>
-
-        <template #footer>
-            <div class="flex justify-end gap-x-2 ">
-                <UButton label="ยกเลิก" color="error" variant="soft" />
-                <UButton label="บันทึก" color="primary" variant="soft" />
-            </div>
-        </template>
-    </UDrawer>
-
 
 </template>
